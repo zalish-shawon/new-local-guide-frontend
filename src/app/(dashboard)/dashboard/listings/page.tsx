@@ -26,8 +26,11 @@ export default function MyListingsPage() {
 
 
 const myTours = allTours.filter((tour: any) => {
+        // Handle if guide is populated (object) or just an ID (string)
         const tourGuideId = typeof tour.guide === 'object' ? tour.guide?._id : tour.guide;
-        return tourGuideId === user?.userId;
+        
+        // COMPARE WITH user._id NOW
+        return tourGuideId === user?._id; 
       });
       
       setTours(myTours);

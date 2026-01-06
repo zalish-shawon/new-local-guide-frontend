@@ -1,35 +1,57 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
-import { Users, Map, Calendar, DollarSign } from "lucide-react";
-import api from "@/src/services/api";
+import Link from "next/link"; // <--- Import Link
+import { Users, Map, Calendar, DollarSign, ArrowRight } from "lucide-react";
+import api from "@/src/services/api"; // Ensure this path matches your project structure exactly
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ users: 0, tours: 0, bookings: 0, revenue: 0 });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Ideally, you should create a specific endpoint /admin/stats in Backend
-    // For now, we simulate it or fetch separate lists
     const fetchStats = async () => {
       try {
-        const [usersRes, toursRes, bookingsRes] = await Promise.all([
-           // You need to ensure these endpoints exist and Admin has access
-           api.get('/users'), 
-           api.get('/tours'),
-           api.get('/bookings') 
-        ]);
+        console.log("🔄 Fetching Admin Stats...");
+        
+        // We fetch individually now. If one fails, the others still load.
+        // 1. Fetch Users
+        let usersCount = 0;
+        try {
+            const usersRes = await api.get('/users');
+            usersCount = usersRes.data.data.length;
+        } catch (err) { console.error("❌ Failed to fetch users:", err); }
+
+        // 2. Fetch Tours
+        let toursCount = 0;
+        try {
+            const toursRes = await api.get('/tours');
+            toursCount = toursRes.data.data.length;
+        } catch (err) { console.error("❌ Failed to fetch tours:", err); }
+
+        // 3. Fetch Bookings
+        let bookingsCount = 0;
+        let totalRevenue = 0;
+        try {
+            const bookingsRes = await api.get('/bookings');
+            bookingsCount = bookingsRes.data.data.length;
+            totalRevenue = bookingsRes.data.data.reduce((acc: number, b: any) => acc + (b.totalPrice || 0), 0);
+        } catch (err) { console.error("❌ Failed to fetch bookings:", err); }
 
         setStats({
-          users: usersRes.data.data.length,
-          tours: toursRes.data.data.length,
-          bookings: bookingsRes.data.data.length,
-          revenue: bookingsRes.data.data.reduce((acc: any, b: any) => acc + b.totalPrice, 0)
+          users: usersCount,
+          tours: toursCount,
+          bookings: bookingsCount,
+          revenue: totalRevenue
         });
+
       } catch (e) {
-        console.error("Failed to load admin stats");
+        console.error("🔥 Major error loading dashboard", e);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchStats();
   }, []);
 
@@ -62,12 +84,33 @@ export default function AdminDashboard() {
          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
             <h3 className="font-bold text-slate-900 mb-4">Quick Actions</h3>
             <div className="space-y-3">
-               <button className="w-full text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-lg text-slate-700 font-medium transition">
-                 Manage Users (Block/Delete)
-               </button>
-               <button className="w-full text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-lg text-slate-700 font-medium transition">
-                 Approve Pending Guides
-               </button>
+               
+               {/* FIXED: Added Link to Manage Users */}
+               <Link 
+                 href="/dashboard/admin/users"
+                 className="block w-full text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-lg text-slate-700 font-medium transition flex justify-between items-center group"
+               >
+                 <span>Manage Users (Block/Delete)</span>
+                 <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition" />
+               </Link>
+
+               {/* FIXED: Link to Manage Tours */}
+               <Link 
+                 href="/dashboard/admin/tours"
+                 className="block w-full text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-lg text-slate-700 font-medium transition flex justify-between items-center group"
+               >
+                 <span>Manage Tours</span>
+                 <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition" />
+               </Link>
+
+               {/* Placeholder for Approve Guides - pointing to users for now */}
+               <Link 
+                 href="/dashboard/admin/users"
+                 className="block w-full text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-lg text-slate-700 font-medium transition flex justify-between items-center group"
+               >
+                 <span>Approve Pending Guides</span>
+                 <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition" />
+               </Link>
             </div>
          </div>
       </div>

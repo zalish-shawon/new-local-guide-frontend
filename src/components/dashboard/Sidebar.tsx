@@ -19,12 +19,14 @@ const Sidebar = () => {
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
+  // 1. Tourist Links
   const touristLinks = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "My Trips", href: "/dashboard/trips", icon: Map },
     { name: "Settings", href: "/dashboard/settings", icon: Settings },
   ];
 
+  // 2. Guide Links
   const guideLinks = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "My Listings", href: "/dashboard/listings", icon: Map },
@@ -32,11 +34,12 @@ const Sidebar = () => {
     { name: "Bookings", href: "/dashboard/bookings", icon: Calendar },
   ];
 
+  // 3. Admin Links (Make sure 'Create Tour' is here!)
   const adminLinks = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Manage Users", href: "/dashboard/admin/users", icon: Users },
     { name: "Manage Tours", href: "/dashboard/admin/tours", icon: Map },
-    { name: "Create Tour", href: "/dashboard/create-tour", icon: PlusCircle },
+    { name: "Create Tour", href: "/dashboard/create-tour", icon: PlusCircle }, // <--- THIS LINE IS CRITICAL
     { name: "All Bookings", href: "/dashboard/admin/bookings", icon: Calendar },
   ];
 
@@ -54,7 +57,7 @@ const Sidebar = () => {
              "text-green-600": user?.role === "tourist",
              "text-red-600": user?.role === "admin",
            })} />
-           <span className="font-bold text-slate-700 capitalize">{user?.role} Portal</span>
+           <span className="font-bold text-slate-700 capitalize">{user?.role || "Guest"} Portal</span>
         </div>
 
         <nav className="space-y-2">

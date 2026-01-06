@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface User {
-  userId: string;
+  _id: string;
   role: "tourist" | "guide" | "admin";
   email: string;
   name?: string;
