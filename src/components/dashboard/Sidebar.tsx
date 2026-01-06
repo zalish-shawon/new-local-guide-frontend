@@ -36,6 +36,7 @@ const Sidebar = () => {
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Manage Users", href: "/dashboard/admin/users", icon: Users },
     { name: "Manage Tours", href: "/dashboard/admin/tours", icon: Map },
+    { name: "Create Tour", href: "/dashboard/create-tour", icon: PlusCircle },
     { name: "All Bookings", href: "/dashboard/admin/bookings", icon: Calendar },
   ];
 
