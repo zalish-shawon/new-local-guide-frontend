@@ -1,39 +1,45 @@
-import { MapPin, Search } from "lucide-react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { useEffect, useState } from "react";
+import { MapPin, Search, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { TourService } from "../services/tour.service";
 import Navbar from "../components/shared/Navbar";
-import TourCard from "../components/ui/TourCard";
 
 export default function Home() {
-  // Mock Data (Replace with API call later)
-  const featuredTours = [
-    {
-      id: "1",
-      title: "Midnight Street Food Crawl in Old Dhaka",
-      price: 45,
-      image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop",
-      location: "Dhaka, Bangladesh",
-      rating: 4.8,
-      duration: 3
-    },
-    {
-      id: "2",
-      title: "Hidden Art Galleries & Coffee Shops",
-      price: 60,
-      image: "https://images.unsplash.com/photo-1499856871940-a09627c6dcf6?q=80&w=2020&auto=format&fit=crop",
-      location: "Sylhet, Bangladesh",
-      rating: 4.9,
-      duration: 4
-    },
-    {
-      id: "3",
-      title: "Photography Walk: Sunset at the River",
-      price: 35,
-      image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070&auto=format&fit=crop",
-      location: "Chittagong, Bangladesh",
-      rating: 4.7,
-      duration: 2
+  const router = useRouter();
+  const [tours, setTours] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const fetchFeaturedTours = async () => {
+      try {
+        // Fetch all tours
+        const data = await TourService.getAllTours();
+        
+        // Optional: Slice to show only first 3 or 6 as "Featured"
+        // You can also filter by rating if you have that data
+        setTours(data.slice(0, 3)); 
+      } catch (error) {
+        console.error("Failed to fetch home tours");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedTours();
+  }, []);
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      // Redirect to the explore page with search query (if you implemented query params there)
+      // For now, just redirecting to /tours
+      router.push(`/tours`);
     }
-  ];
+  };
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -66,11 +72,17 @@ export default function Home() {
               <MapPin className="h-5 w-5 text-slate-400 mr-2" />
               <input 
                 type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Where do you want to go?" 
                 className="w-full outline-none text-slate-700 placeholder:text-slate-400"
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
             </div>
-            <button className="bg-indigo-600 hover:bg-indigo-700 text-white h-12 px-8 rounded-full font-bold transition flex items-center justify-center gap-2">
+            <button 
+              onClick={handleSearch}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white h-12 px-8 rounded-full font-bold transition flex items-center justify-center gap-2"
+            >
               <Search className="h-5 w-5" />
               Search
             </button>
@@ -90,11 +102,55 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredTours.map((tour) => (
-            <TourCard key={tour.id} {...tour} />
-          ))}
-        </div>
+        {loading ? (
+           <div className="flex justify-center py-20">
+             <Loader2 className="h-10 w-10 animate-spin text-indigo-600" />
+           </div>
+        ) : tours.length === 0 ? (
+           <div className="text-center py-10 text-slate-500">
+              No tours available right now. Check back later!
+           </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {tours.map((tour) => (
+               <Link 
+                 href={`/tours/${tour._id}`} 
+                 key={tour._id}
+                 className="group bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
+               >
+                 {/* Image */}
+                 <div className="h-56 overflow-hidden relative">
+                   <img 
+                     src={tour.images?.[0] || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80"} 
+                     alt={tour.title}
+                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                   />
+                   <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold shadow-sm text-slate-900">
+                     {tour.category}
+                   </div>
+                 </div>
+
+                 {/* Content */}
+                 <div className="p-5 flex-1 flex flex-col">
+                   <h3 className="font-bold text-lg text-slate-900 line-clamp-1 mb-2 group-hover:text-indigo-600 transition">
+                     {tour.title}
+                   </h3>
+                   
+                   <div className="flex items-center gap-4 text-sm text-slate-500 mb-4">
+                     <span className="flex items-center gap-1"><MapPin className="h-4 w-4" /> {tour.meetingPoint}</span>
+                   </div>
+
+                   <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                     <p className="text-xl font-bold text-indigo-600">${tour.price}</p>
+                     <span className="text-sm font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg">
+                       View
+                     </span>
+                   </div>
+                 </div>
+               </Link>
+            ))}
+          </div>
+        )}
         
         <div className="mt-8 text-center md:hidden">
           <Link href="/tours" className="text-indigo-600 font-bold hover:text-indigo-700">
