@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/src/context/AuthContext";
 import api from "@/src/services/api";
+import Navbar from "@/src/components/shared/Navbar";
 
 export default function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -32,6 +33,8 @@ export default function LoginPage() {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
         <div className="text-center mb-8">
@@ -78,5 +81,6 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+    </>
   );
 }

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Loader2, Mail, Lock, User, Map, CheckCircle2 } from "lucide-react";
 import { AuthService } from "@/src/services/auth.service";
+import Navbar from "@/src/components/shared/Navbar";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -40,6 +41,8 @@ export default function RegisterPage() {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
         
@@ -163,5 +166,8 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+    
+    
+    </>
   );
 }

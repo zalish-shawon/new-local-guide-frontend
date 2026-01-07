@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { Loader2, Sidebar } from "lucide-react";
 import { useAuth } from "@/src/context/AuthContext";
 import Navbar from "@/src/components/shared/Navbar";
+import Footer from "@/src/components/shared/Footer";
 
 export default function DashboardLayout({
   children,
@@ -47,6 +48,7 @@ export default function DashboardLayout({
             {children}
           </div>
         </main>
+        {/* <Footer /> */}
       </div>
     </div>
   );
