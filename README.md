@@ -27,7 +27,7 @@ This is the frontend client for **LocalGuide**, a modern travel booking platform
 
 ## 💻 Tech Stack
 
-* **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+* **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
 * **Language**: [TypeScript](https://www.typescriptlang.org/)
 * **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 * **Icons**: [Lucide React](https://lucide.dev/)
