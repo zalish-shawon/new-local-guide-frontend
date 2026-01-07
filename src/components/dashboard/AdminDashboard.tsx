@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link"; // <--- Import Link
-import { Users, Map, Calendar, DollarSign, ArrowRight } from "lucide-react";
+import { Users, Map, Calendar, DollarSign, ArrowRight, PlusCircle } from "lucide-react";
 import api from "@/src/services/api"; // Ensure this path matches your project structure exactly
 
 export default function AdminDashboard() {
@@ -114,7 +114,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Admin Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
           <h3 className="font-bold text-slate-900 mb-4">Quick Actions</h3>
           <div className="space-y-3">
@@ -136,6 +136,8 @@ export default function AdminDashboard() {
               <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition" />
             </Link>
 
+           
+
             {/* Placeholder for Approve Guides - pointing to users for now */}
             <Link
               href="/dashboard/admin/users"
@@ -146,6 +148,18 @@ export default function AdminDashboard() {
             </Link>
           </div>
         </div>
+         <div>
+          {/* NEW: Link to Create Tour */}
+            <Link
+              href="/dashboard/create-tour"
+              className="block w-full text-left px-4 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-bold transition flex justify-between items-center group"
+            >
+              <span className="flex items-center gap-2">
+                <PlusCircle className="h-5 w-5" /> Create New Tour
+              </span>
+              <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition" />
+            </Link>
+         </div>
       </div>
     </div>
   );

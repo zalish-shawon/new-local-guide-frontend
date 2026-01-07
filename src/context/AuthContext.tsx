@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const storedToken = localStorage.getItem("accessToken");
         const storedUser = localStorage.getItem("user");
 
-        console.log("🔄 Attempting to restore session:", { storedToken, storedUser });
+        // console.log("🔄 Attempting to restore session:", { storedToken, storedUser });
 
         if (storedToken && storedUser) {
           // 2. Validate data is not "undefined" string

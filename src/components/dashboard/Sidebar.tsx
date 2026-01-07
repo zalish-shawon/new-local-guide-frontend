@@ -34,7 +34,6 @@ const Sidebar = () => {
     { name: "Bookings", href: "/dashboard/bookings", icon: Calendar },
   ];
 
-  // 3. Admin Links (Make sure 'Create Tour' is here!)
   const adminLinks = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Manage Users", href: "/dashboard/admin/users", icon: Users },

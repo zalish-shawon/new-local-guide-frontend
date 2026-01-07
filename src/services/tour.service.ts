@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import api from "./api";
 
 export const TourService = {
@@ -17,5 +18,10 @@ export const TourService = {
       date
     });
     return response.data.data;
-  }
+  },
+
+  updateTour: async (id: string, data: any) => {
+    const response = await api.patch(`/tours/${id}`, data);
+    return response.data.data;
+  },
 };
