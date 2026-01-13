@@ -155,7 +155,7 @@ console.log(booking);
                 <h2 className="text-base font-extrabold text-indigo-600">
                   TourBook Inc.
                 </h2>
-                <p className="mt-1 text-xs text-slate-500 leading-relaxed">
+                <p className="mt-1 text-xs leading-relaxed">
                   123 Adventure Lane <br />
                   New York, NY 10012 <br />
                   support@tourbook.com
