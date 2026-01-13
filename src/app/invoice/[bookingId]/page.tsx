@@ -15,7 +15,7 @@ export default function InvoicePage() {
 
   const [booking, setBooking] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
+console.log(booking);
   useEffect(() => {
     const fetchBooking = async () => {
       try {
@@ -186,7 +186,7 @@ export default function InvoicePage() {
                   <div className="flex items-center justify-between rounded-lg bg-white px-3 py-2 ring-1 ring-slate-200">
                     <span className="text-slate-500">Guests</span>
                     <span className="font-semibold text-slate-800">
-                      {booking.slots ?? "-"}
+                      {booking.tour?.maxGroupSize ?? "-"}
                     </span>
                   </div>
                 </div>
@@ -258,7 +258,7 @@ export default function InvoicePage() {
                       </p>
                     </td>
                     <td className="px-4 py-4 text-center font-semibold text-slate-700 text-sm">
-                      {booking.slots ?? 0}
+                      {booking.tour?.maxGroupSize ?? 0}
                     </td>
                     <td className="px-4 py-4 text-right text-slate-700 text-sm">
                       {money(booking.tour?.price)}

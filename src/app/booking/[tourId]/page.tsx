@@ -23,7 +23,7 @@ export default function BookingPage() {
   // Form State
   const [date, setDate] = useState("");
   const [guests, setGuests] = useState(1);
-
+console.log(guests);
   useEffect(() => {
     const fetchTour = async () => {
       try {
