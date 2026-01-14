@@ -20,14 +20,8 @@ export default function GuideDashboard() {
         const bookingData = await BookingService.getMyBookings();
         setBookings(bookingData);
 
-        // 2. Fetch Tours I created (Need to ensure backend supports filtering by guide)
-        // Assuming your getAllTours might not filter, let's just use what we have or add a specific endpoint
-        // For now, let's try a direct call if you have a '/tours/my-tours' endpoint, 
-        // OR filtering the general list if the list is small. 
-        // Ideally: api.get('/tours?guideId=MY_ID')
         const toursRes = await api.get('/tours'); 
-        // Filter locally for now (Not ideal for production but works for prototype)
-        // Note: Ideally Backend should have an endpoint: /tours/my-tours
+
         setMyTours(toursRes.data.data); 
 
       } catch (error) {
