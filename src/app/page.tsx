@@ -213,7 +213,7 @@ export default function Home() {
             </div>
             <h3 className="text-xl font-bold text-slate-900 mb-3">Authentic Experiences</h3>
             <p className="text-slate-500 leading-relaxed">
-              Don't just see the sights. Experience the culture like a local with custom tailored tours.
+              Don&apos;t just see the sights. Experience the culture like a local with custom tailored tours.
             </p>
           </div>
 
