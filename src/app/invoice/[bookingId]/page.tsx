@@ -55,7 +55,6 @@ console.log(booking);
     [booking]
   );
 
-  // IMPORTANT: don't use window in useMemo directly unless guarded.
   // QR will encode a useful verification text (safe for SSR/client).
   const qrValue = useMemo(() => {
     if (!booking) return "";
