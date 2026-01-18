@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -121,7 +122,7 @@ console.log(booking);
         {/* Paper */}
         <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-slate-200 print:shadow-none print:ring-0 print:rounded-none print:invoice-onepage">
           {/* subtle header gradient */}
-          <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-r from-indigo-600/10 via-slate-50 to-purple-600/10 print:hidden" />
+          <div className="absolute inset-x-0 top-0 h-20 bg-linear-to-r from-indigo-600/10 via-slate-50 to-purple-600/10 print:hidden" />
 
           {/* Content */}
           <div className="relative p-6 sm:p-9 print:p-6">

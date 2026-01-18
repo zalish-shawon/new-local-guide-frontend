@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -59,14 +61,14 @@ export default function Home() {
       <Navbar />
 
       {/* 1. HERO SECTION */}
-      <section className="relative h-[600px] flex items-center justify-center">
+      <section className="relative h-150 flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop" 
             className="w-full h-full object-cover"
             alt="Hero Background"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/40 to-transparent" />
         </div>
 
         <div className="relative z-10 w-full max-w-4xl px-4 text-center mt-10">
