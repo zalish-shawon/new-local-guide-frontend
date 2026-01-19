@@ -8,36 +8,56 @@ import {
   Menu, X, User, LogOut, Map, Calendar, 
   Settings, Heart 
 } from "lucide-react";
-import toast from "react-hot-toast"; // Ensure you have this installed
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setProfileOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Default to false
+  
+  // Auth States
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState({ name: "User", email: "", role: "" });
+  
   const pathname = usePathname();
   const router = useRouter();
 
-  // 1. Check if user is logged in (Run on client-side only)
+  // 1. Check Login Status & Get User Info
   useEffect(() => {
-    // Check if 'accessToken' exists in localStorage
+    // Get token and user data from localStorage
     const token = localStorage.getItem("accessToken");
-    setIsLoggedIn(!!token);
+    const userStr = localStorage.getItem("user"); // Expecting JSON string of user
+
+    if (token) {
+      setIsLoggedIn(true);
+      
+      if (userStr) {
+        try {
+          const parsedUser = JSON.parse(userStr);
+          setUserInfo({
+            name: parsedUser.name || "Valued User",
+            email: parsedUser.email || "",
+            role: parsedUser.role || "tourist"
+          });
+        } catch (error) {
+          console.error("Failed to parse user data", error);
+        }
+      }
+    }
   }, []);
 
   // 2. Handle Logout Logic
   const handleLogout = () => {
-    // Remove token
+    // Remove token AND user data
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
     
-    // Update local state immediately
+    // Update local state
     setIsLoggedIn(false);
+    setUserInfo({ name: "", email: "", role: "" });
     setProfileOpen(false);
     setIsOpen(false);
 
-    // Show success message
     toast.success("Logged out successfully");
-
-    // Redirect to login page
     router.push("/login");
   };
 
@@ -93,15 +113,26 @@ export default function Navbar() {
                   <div className="h-8 w-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center border border-indigo-200">
                     <User className="h-5 w-5" />
                   </div>
-                  <span className="text-sm font-bold text-slate-700">My Account</span>
+                  {/* Show First Name Only on Button to save space */}
+                  <span className="text-sm font-bold text-slate-700 max-w-[100px] truncate">
+                    {userInfo.name.split(' ')[0]}
+                  </span>
                 </button>
 
                 {/* Dropdown Menu */}
                 {isProfileOpen && (
-                  <div className="absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-xl border border-slate-100 py-2 animate-in fade-in slide-in-from-top-2">
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-100 py-2 animate-in fade-in slide-in-from-top-2">
+                    {/* User Info Header */}
                     <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
-                      <p className="text-sm font-bold text-slate-900">User</p>
-                      <p className="text-xs text-slate-500 font-medium">Logged in</p>
+                      <p className="text-sm font-bold text-slate-900 truncate" title={userInfo.name}>
+                        {userInfo.name}
+                      </p>
+                      <p className="text-xs text-slate-500 font-medium truncate" title={userInfo.email}>
+                        {userInfo.email}
+                      </p>
+                      <span className="mt-1 inline-block text-[10px] uppercase tracking-wider font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100">
+                        {userInfo.role}
+                      </span>
                     </div>
                     
                     <div className="py-1">
@@ -179,6 +210,10 @@ export default function Navbar() {
             <div className="border-t border-slate-100 my-2 pt-2">
               {isLoggedIn ? (
                 <>
+                  <div className="px-3 py-2 bg-slate-50 rounded-lg mb-2">
+                    <p className="font-bold text-slate-900">{userInfo.name}</p>
+                    <p className="text-xs text-slate-500">{userInfo.email}</p>
+                  </div>
                   <Link href="/dashboard" className="flex items-center gap-2 px-3 py-3 text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600">
                     <Settings className="h-4 w-4" /> Dashboard
                   </Link>

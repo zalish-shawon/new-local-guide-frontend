@@ -55,7 +55,7 @@ export default function DestinationsPage() {
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-slate-900/90 via-slate-900/20 to-transparent" />
               
               {/* Content */}
               <div className="absolute bottom-0 left-0 p-6 w-full translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
